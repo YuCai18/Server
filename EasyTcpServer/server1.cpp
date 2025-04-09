@@ -2,6 +2,12 @@
 #include<Windows.h>
 #include<stdio.h>
 
+struct DataPackage
+{
+	int age;
+	char name[32];
+};
+
 int main() {
 	WORD ver = MAKEWORD(2, 2);
 	WSADATA dat;
@@ -50,16 +56,11 @@ int main() {
 			printf("客户端已退出，任务结束。");
 			break;
 		}
+		printf("收到命令:%s \n",_recvBuf);
 		//6.处理请求
-		if (0 == strcmp(_recvBuf,"getName")) {
-			//7.向客户端发送一条数据
-			char msgBuf[] = "Cai Yu.";
-			send(_cSock,msgBuf,strlen(msgBuf)+1,0);
-		}
-		else if (0 == strcmp(_recvBuf,"getAge")) {
-			//7.向客户端发送一条数据
-			char msgBuf[] = "24.";
-			send(_cSock, msgBuf, strlen(msgBuf) + 1, 0);
+		if (0 == strcmp(_recvBuf, "getInfo")) {
+			DataPackage dp = {24,"Cai Yu"};
+			send(_cSock, (const char*) & dp, sizeof(DataPackage), 0);
 		}
 		else {
 			//7.向客户端发送一条数据

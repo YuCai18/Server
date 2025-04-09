@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34607.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyTcpServer", "EasyTcpServer\EasyTcpServer.vcxproj", "{C6DCE854-1052-411C-AA8A-DB542B9D5F13}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyClient", "..\EasyClient\EasyClient\EasyClient.vcxproj", "{EE70A276-B9FD-4507-850E-AD5B1537BA0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{C6DCE854-1052-411C-AA8A-DB542B9D5F13}.Release|x64.Build.0 = Release|x64
 		{C6DCE854-1052-411C-AA8A-DB542B9D5F13}.Release|x86.ActiveCfg = Release|Win32
 		{C6DCE854-1052-411C-AA8A-DB542B9D5F13}.Release|x86.Build.0 = Release|Win32
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Debug|x64.ActiveCfg = Debug|x64
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Debug|x64.Build.0 = Debug|x64
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Debug|x86.ActiveCfg = Debug|Win32
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Debug|x86.Build.0 = Debug|Win32
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Release|x64.ActiveCfg = Release|x64
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Release|x64.Build.0 = Release|x64
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Release|x86.ActiveCfg = Release|Win32
+		{EE70A276-B9FD-4507-850E-AD5B1537BA0D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
