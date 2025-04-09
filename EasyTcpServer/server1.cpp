@@ -2,10 +2,40 @@
 #include<Windows.h>
 #include<stdio.h>
 
-struct DataPackage
+enum CMD
 {
-	int age;
-	char name[32];
+	CMD_LOGIN,
+	CMD_LOGOUT,
+	CMD_ERROR
+};
+//消息头
+struct DataHeader
+{
+	short dataLength; //数据长度
+	short cmd;
+};
+//DataPackage
+struct Login
+{
+	char userName[32];
+	char PassWord[32];
+};
+
+struct LoginResult
+{
+	int result;
+
+};
+
+struct logout
+{
+	char userName[32];
+};
+
+struct logoutResult
+{
+	int result;
+
 };
 
 int main() {
@@ -47,26 +77,48 @@ int main() {
 	}
 	printf("新客户端加入:IP = %s \n", inet_ntoa(clientAddr.sin_addr));
 
-	char _recvBuf[128] = {};
+	
 	while (true)
 	{	
+		DataHeader header = {};
 		//5.接收客户端数据
-		int nLen = recv(_cSock,_recvBuf,128,0);
+		int nLen = recv(_cSock, (char*)&header,sizeof(DataHeader), 0);
 		if (nLen <= 0) {
 			printf("客户端已退出，任务结束。");
 			break;
 		}
-		printf("收到命令:%s \n",_recvBuf);
-		//6.处理请求
-		if (0 == strcmp(_recvBuf, "getInfo")) {
-			DataPackage dp = {24,"Cai Yu"};
-			send(_cSock, (const char*) & dp, sizeof(DataPackage), 0);
+		printf("收到命令:%d,数据长度:%d \n",header.cmd,header.dataLength);
+		switch (header.cmd)
+		{
+			case CMD_LOGIN:
+				{
+					Login login = {};
+					recv(_cSock,(char*)&login,sizeof(Login),0);
+					//忽略判断用户名密码是否正确
+					LoginResult ret = {1};
+					send(_cSock, (char*)&header, sizeof(DataHeader), 0);
+					send(_cSock, (char*)&ret, sizeof(LoginResult), 0);
+				}
+				break;
+
+			case CMD_LOGOUT:
+				{
+					logout logout = {};
+					recv(_cSock, (char*)&logout, sizeof(logout), 0);
+					//忽略判断用户名密码是否正确
+					logoutResult ret = { 1 };
+					send(_cSock, (char*)&header, sizeof(DataHeader), 0);
+					send(_cSock, (char*)&ret, sizeof(logoutResult), 0);
+				}
+				break;
+			default:
+				header.cmd = CMD_ERROR;
+				header.dataLength = 0;
+				send(_cSock, (char*)&header, sizeof(DataHeader), 0);
+
+				break;
 		}
-		else {
-			//7.向客户端发送一条数据
-			char msgBuf[] = "???.";
-			send(_cSock, msgBuf, strlen(msgBuf) + 1, 0);
-		}
+
 		
 	}
 	//8.关闭套接字closesocket
