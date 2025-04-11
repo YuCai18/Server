@@ -191,10 +191,13 @@ int main() {
 			if (INVALID_SOCKET == _cSock) {
 				printf("错误，接收到无效客户端Socket...\n");
 			}
-			//群发
-			for (int n = (int)g_clients.size() - 1; n >= 0;n--) {
-				NewUserJoin userJoin;
-				send(g_clients[n], (const char*)&userJoin,sizeof(NewUserJoin),0);
+			else 
+			{
+				//群发
+				for (int n = (int)g_clients.size() - 1; n >= 0; n--) {
+					NewUserJoin userJoin;
+					send(g_clients[n], (const char*)&userJoin, sizeof(NewUserJoin), 0);
+				}
 			}
 
 			g_clients.push_back(_cSock);
