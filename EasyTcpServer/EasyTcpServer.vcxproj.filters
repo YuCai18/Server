@@ -21,5 +21,8 @@
     <ClCompile Include="server1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="server2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
