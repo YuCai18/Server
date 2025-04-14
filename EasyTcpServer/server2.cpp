@@ -1,16 +1,16 @@
-#define WIN32_LEAN_AND_MEAN
 
 #ifdef _WIN32
-#include<Windows.h>
-#include<WinSock2.h>
+    #define WIN32_LEAN_AND_MEAN
+    #include<Windows.h>
+    #include<WinSock2.h>
 #else
-#include<unistd.h> //uni std
-#include<arpa/inet.h>
-#include<string.h>
-#define SOCKET int
-#define INVALID_SOCKET (SOCKET)(~0)
-#define SOCKET_ERROR        (-1)
-#define closesocket(s) close(s)
+    #include<unistd.h> //uni std
+    #include<arpa/inet.h>
+    #include<string.h>
+    #define SOCKET int
+    #define INVALID_SOCKET (SOCKET)(~0)
+    #define SOCKET_ERROR        (-1)
+    #define closesocket(s) close(s)
 #endif
 #include<stdio.h>
 #include<thread>
@@ -207,8 +207,8 @@ int main() {
             int nAddrLen = sizeof(sockaddr_in);
             SOCKET _cSock = INVALID_SOCKET;
 
-            _cSock = accept(_sock, (sockaddr*)&clientAddr, (socklen_t*)&nAddrLen); // 接受新连接
-
+            //_cSock = accept(_sock, (sockaddr*)&clientAddr, (socklen_t*)&nAddrLen); // 接受新连接
+            _cSock = accept(_sock, (sockaddr*)&clientAddr, &nAddrLen); // 接受新连接
             if (INVALID_SOCKET == _cSock) {
                 printf("错误，接收到无效客户端Socket...\n");
             }
@@ -229,7 +229,7 @@ int main() {
             if (FD_ISSET(g_clients[n], &fdRead)) {
                 if (-1 == processor(g_clients[n]))
                 {
-                    auto iter = g_clients.begin();
+                    auto iter = g_clients.begin()+n; //这里要记得加上n
                     if (iter != g_clients.end())
                     {
                         g_clients.erase(iter);
