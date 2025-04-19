@@ -18,15 +18,16 @@ struct DataHeader
 //DataPackage
 struct Login :public DataHeader
 {
-	Login() {
+	Login()
+	{
 		dataLength = sizeof(Login);
 		cmd = CMD_LOGIN;
 	}
 	char userName[32];
 	char PassWord[32];
+	char data[932];
 };
-
-struct LoginResult :public DataHeader
+struct LoginResult:public DataHeader
 {
 	LoginResult()
 	{
@@ -35,9 +36,10 @@ struct LoginResult :public DataHeader
 		result = 0;
 	}
 	int result;
+	char data[992];
 };
 
-struct Logout : public DataHeader
+struct Logout :public DataHeader
 {
 	Logout()
 	{
@@ -47,7 +49,7 @@ struct Logout : public DataHeader
 	char userName[32];
 };
 
-struct LogoutResult : public DataHeader
+struct LogoutResult:public DataHeader
 {
 	LogoutResult()
 	{
@@ -60,12 +62,12 @@ struct LogoutResult : public DataHeader
 
 struct NewUserJoin : public DataHeader
 {
-	NewUserJoin() {
+	NewUserJoin()
+	{
 		dataLength = sizeof(NewUserJoin);
 		cmd = CMD_NEW_USER_JOIN;
 		scok = 0;
 	}
 	int scok;
 };
-
 #endif // !_MessageHeader_hpp_
