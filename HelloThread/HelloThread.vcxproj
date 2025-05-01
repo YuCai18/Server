@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c6dce854-1052-411c-aa8a-db542b9d5f13}</ProjectGuid>
-    <RootNamespace>EasyTcpServer</RootNamespace>
+    <ProjectGuid>{66f9fff2-74b0-4b32-9638-9c258707e730}</ProjectGuid>
+    <RootNamespace>HelloThread</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,29 +70,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)./bin/$(Platform)/$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)./temp/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)./bin/$(Platform)/$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)./temp/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)./bin/$(Platform)/$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)./temp/$(Platform)/$(Configuration)/$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,13 +106,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,7 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -141,19 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="server.cpp" />
-    <ClCompile Include="server1.cpp" />
-    <ClCompile Include="server2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CELLTimestamp.hpp" />
-    <ClInclude Include="EasyTcpServer.hpp" />
-    <ClInclude Include="MessageHeader.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\EasyClient\EasyClient.sln" />
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj" />
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj.filters" />
+    <ClCompile Include="HelloThread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

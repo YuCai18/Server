@@ -15,30 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="server.cpp">
+    <ClCompile Include="HelloThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="server1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="server2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EasyTcpServer.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageHeader.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CELLTimestamp.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj" />
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj.filters" />
-    <None Include="..\..\EasyClient\EasyClient.sln" />
   </ItemGroup>
 </Project>
