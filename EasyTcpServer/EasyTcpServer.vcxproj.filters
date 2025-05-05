@@ -18,10 +18,10 @@
     <ClCompile Include="server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="server1.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="CELLTask.hpp">
+      <Filter>头文件</Filter>
     </ClCompile>
-    <ClCompile Include="server2.cpp">
+    <ClCompile Include="..\..\HelloMemory\HelloMemory\Alloctor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,19 @@
     <ClInclude Include="CELLTimestamp.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HelloMemory\HelloMemory\Alloctor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HelloMemory\HelloMemory\MemoryMgr.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj" />
-    <None Include="..\..\EasyTcpClient\EasyTcpClient.vcxproj.filters" />
-    <None Include="..\..\EasyClient\EasyClient.sln" />
+    <ResourceCompile Include="EasyTcpServer.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -1,57 +1,106 @@
-/*
-#include<WinSock2.h>
-#include<Windows.h>
-#include<stdio.h>
-//#pragma comment(lib,"ws2_32.lib")
-//#define _WINSOCK_DEPRECATED_NO_WARNINGS
-int main() {
+#include "Alloctor.h"
+#include "EasyTcpServer.hpp"
+#include<thread>
 
-	WORD ver = MAKEWORD(2, 2);
-	WSADATA dat;
-	WSAStartup(ver, &dat);
-	//1.建立一个套接字
-	SOCKET _sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 
-	//2.bind绑定接收客户端链接的网络端口
-	sockaddr_in _sin = {};
-	_sin.sin_family = AF_INET;
-	_sin.sin_port = htons(4567); // host to net unsigned short
-	_sin.sin_addr.S_un.S_addr = INADDR_ANY;//inet_addr("127.0.0.1");
-	
-	if (SOCKET_ERROR== bind(_sock, (sockaddr*)&_sin, sizeof(_sin))) {
-		printf("ERROR,绑定端口失败！\n");
-	}
-	else {
-		printf("绑定端口成功！\n");
-	}
-	//3.listen监听网络端口
-	if (SOCKET_ERROR == listen(_sock, 5)) {
-		printf("ERROR,监听端口失败！\n");
-	}
-	else {
-		printf("监听端口成功！\n");
-	}
-	
-	//4.accept等待接收客户端连接
-	sockaddr_in clientAddr = {};
-	int nAddrLen = sizeof(sockaddr_in);
-	SOCKET _cSock = INVALID_SOCKET;
-	char msgBuf[] = "Hello, I'm Server.";
-
-	while (true) {
-		_cSock = accept(_sock, (sockaddr*)&clientAddr, &nAddrLen);
-		if (INVALID_SOCKET == _cSock) {
-			printf("错误，接收到无效客户端Socket...\n");
+bool g_bRun = true;
+void cmdThread()
+{
+	while (true)
+	{
+		char cmdBuf[256] = {};
+		scanf("%s", cmdBuf);
+		if (0 == strcmp(cmdBuf, "exit"))
+		{
+			g_bRun = false;
+			printf("退出cmdThread线程\n");
+			break;
 		}
-		printf("新客户端加入:IP = %s \n",inet_ntoa(clientAddr.sin_addr));
-		//5.send向客户端发送一条数据
-		send(_cSock, msgBuf, strlen(msgBuf) + 1, 0);
+		else {
+			printf("不支持的命令。\n");
+		}
 	}
+}
 
-	//6.关闭套接字closesocket
-	closesocket(_sock);
+class MyServer : public EasyTcpServer
+{
+public:
 
-	WSACleanup();
+	//只会被一个线程触发 安全
+	virtual void OnNetJoin(ClientSocket* pClient)
+	{
+		EasyTcpServer::OnNetJoin(pClient);
+	}
+	//cellServer 4 多个线程触发 不安全
+	//如果只开启1个cellServer就是安全的
+	virtual void OnNetLeave(ClientSocket* pClient)
+	{
+		EasyTcpServer::OnNetLeave(pClient);
+	}
+	virtual void OnNetRecv(ClientSocket* pClient)
+	{
+		EasyTcpServer::OnNetRecv(pClient);
+	}
+	//cellServer 4 多个线程触发 不安全
+	//如果只开启1个cellServer就是安全的
+	virtual void OnNetMsg(CellServer* pCellServer,ClientSocket* pClient, DataHeader* header)
+	{
+		EasyTcpServer::OnNetMsg(pCellServer,pClient,header);
+		switch (header->cmd)
+		{
+		case CMD_LOGIN:
+		{
+			Login* login = (Login*)header;
+			//printf("收到客户端<Socket=%d>请求：CMD_LOGIN,数据长度：%d,userName=%s PassWord=%s\n", cSock, login->dataLength, login->userName, login->PassWord);
+			//忽略判断用户密码是否正确的过程
+			//LoginResult ret;
+			//pClient->SendData(&ret);
+			LoginResult* ret = new LoginResult();
+			pCellServer->addSendTask(pClient, ret);
+		}
+		break;
+		case CMD_LOGOUT:
+		{
+			Logout* logout = (Logout*)header;
+			//printf("收到客户端<Socket=%d>请求：CMD_LOGOUT,数据长度：%d,userName=%s \n", cSock, logout->dataLength, logout->userName);
+			//忽略判断用户密码是否正确的过程
+			//LogoutResult ret;
+			//SendData(cSock, &ret);
+		}
+		break;
+		default:
+		{
+			printf("<socket=%d>收到未定义消息,数据长度：%d\n", pClient->sockfd(), header->dataLength);
+			//DataHeader ret;
+			//SendData(cSock, &ret);
+		}
+		break;
+		}
+	}
+private:
+
+};
+
+int main()
+{
+
+	MyServer server;
+	server.InitSocket();
+	server.Bind(nullptr, 4567);
+	server.Listen(5);
+	server.Start(4);
+
+	//启动UI线程
+	std::thread t1(cmdThread);
+	t1.detach();
+
+	while (g_bRun)
+	{
+		server.OnRun();
+		//printf("空闲时间处理其它业务..\n");
+	}
+	server.Close();
+	printf("已退出。\n");
+	getchar();
 	return 0;
 }
-*/
